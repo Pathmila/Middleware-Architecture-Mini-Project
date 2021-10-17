@@ -1,9 +1,13 @@
 package com.example.petstore;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
+import java.util.stream.Collectors;
+import javax.transaction.Transactional;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -19,12 +23,10 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 @Path("/v1/pets")
 @Produces("application/json")
 public class PetResource {
-
-	@APIResponses(value = {
-			@APIResponse(responseCode = "200", description = "All Pets", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(ref = "Pet"))) })
-	@GET
-	public Response getPets() {
-		List<Pet> pets = new ArrayList<Pet>();
+	
+	List<Pet> pets = new ArrayList<Pet>();
+				
+	public PetResource() {
 		Pet pet1 = new Pet();
 		pet1.setPetId(1);
 		pet1.setPetAge(3);
@@ -46,25 +48,127 @@ public class PetResource {
 		pets.add(pet1);
 		pets.add(pet2);
 		pets.add(pet3);
+	}
+	
+	@APIResponses(value = {
+			@APIResponse(responseCode = "200", description = "All Pets", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(ref = "Pet"))) })
+	@GET
+	public Response getPets() {		
 		return Response.ok(pets).build();
 	}
-
+	
+	
 	@APIResponses(value = {
 			@APIResponse(responseCode = "200", description = "Pet for id", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(ref = "Pet"))),
 			@APIResponse(responseCode = "404", description = "No Pet found for the id.") })
 	@GET
-	@Path("{petId}")
-	public Response getPet(@PathParam("petId") int petId) {
-		if (petId < 0) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
-		Pet pet = new Pet();
-		pet.setPetId(petId);
-		pet.setPetAge(3);
-		pet.setPetName("Buula");
-		pet.setPetType("Dog");
-
-		return Response.ok(pet).build();
+	@Path("/id/{petId}")
+	public Response getPet(@PathParam("petId") int petId) {		
 		
+		Pet filterpets = pets.stream().filter(id -> petId == id.getPetId()).findAny().orElse(null);
+
+		return Response.ok(filterpets).build();
+
 	}
+	
+	@APIResponses(value = {
+			@APIResponse(responseCode = "200", description = "Pet for name", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(ref = "Pet"))),
+			@APIResponse(responseCode = "404", description = "No Pet found for the name.") })
+	@GET
+	@Path("/name/{petName}")		
+	public Response getPetByName(@PathParam("petName") String petName) {
+		
+		Pet filterpets = pets.stream().filter(name -> petName.equals(name.getPetName())).findAny().orElse(null);
+		
+		return Response.ok(filterpets).build();
+	
+	}
+	
+	@APIResponses(value = {
+			@APIResponse(responseCode = "200", description = "Pet for type", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(ref = "Pet"))),
+			@APIResponse(responseCode = "404", description = "No Pet found for the type.") })
+	@GET
+	@Path("/type/{petType}")		
+	public Response getPetByType(@PathParam("petType") String petType) {
+		
+		Pet filterpets = pets.stream().filter(type -> petType.equals(type.getPetType())).findAny().orElse(null);
+	
+		return Response.ok(filterpets).build();
+	
+	}
+	
+	@APIResponses(value = {
+			@APIResponse(responseCode = "200", description = "Pet for age", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(ref = "Pet"))),
+			@APIResponse(responseCode = "404", description = "No Pet found for the age.") })
+	@GET
+	@Path("/age/{petAge}")
+	public Response getPetByAge(@PathParam("petAge") int petAge) {			
+		
+		Pet filterpets = pets.stream().filter(age -> petAge == age.getPetAge()).findAny().orElse(null);
+	
+		return Response.ok(filterpets).build();
+
+	}
+	
+	@APIResponses(value = {
+			@APIResponse(responseCode = "200", description = "IDs of pets", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(ref = "Pet"))),
+			@APIResponse(responseCode = "404", description = "No IDs are found.") })
+	@GET
+	@Path("/getIds")
+	public Response getPetIds() {				
+		
+		List<Integer> list = pets.stream().map(t->t.getPetId()).collect(Collectors.toList());
+	
+		return Response.ok(list).build();
+
+	}
+	
+	@APIResponses(value = {
+			@APIResponse(responseCode = "200", description = "Names of pets", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(ref = "Pet"))),
+			@APIResponse(responseCode = "404", description = "No names are found.") })
+	@GET
+	@Path("/getNames")
+	public Response getPetNames() {				
+		
+		List<String> list = pets.stream().map(t->t.getPetName()).collect(Collectors.toList());
+	
+		return Response.ok(list).build();
+
+	}
+	
+	@APIResponses(value = {
+			@APIResponse(responseCode = "200", description = "Types of pets", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(ref = "Pet"))),
+			@APIResponse(responseCode = "404", description = "No types are found.") })
+	@GET
+	@Path("/getTypes")
+	public Response getPetTypes() {				
+		
+		List<String> list = pets.stream().map(t->t.getPetType()).collect(Collectors.toList());
+	
+		return Response.ok(list).build();
+
+	}
+	
+	@APIResponses(value = {
+			@APIResponse(responseCode = "200", description = "Add a pet", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(ref = "Pet"))),
+			@APIResponse(responseCode = "404", description = "No types are found.") })
+	@POST
+	@Path("/addPet/{newId}{newName}{newAge}{newType}")
+	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.TEXT_PLAIN)
+	public Response addPet(@PathParam("newId,newName,newAge,newType") int newId, String newName, int newAge, String newType) {
+		Pet pet1 = new Pet();
+		pet1.setPetId(newId);
+		pet1.setPetAge(newAge);
+		pet1.setPetName(newName);
+		pet1.setPetType(newType);
+
+		pets.add(pet1);
+		return Response.ok(pets).build();
+	}
+	
+	
 }
+
+
+

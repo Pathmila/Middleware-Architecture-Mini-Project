@@ -1,16 +1,10 @@
 # PetStore Application
 
-## Introduction
+## How to build and/or deploy the API
 
-MicroProfile Starter has generated this MicroProfile application for you.
+First clone the repository.
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
-
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
-
-## Packaging and running the application
-
-If you want to build an _??ber-jar_, execute the following command:
+To build the application:
 
     ./gradlew build -Dquarkus.package.type=uber-jar
 
@@ -18,16 +12,207 @@ To run the application:
 
     java -jar build/petstore-runner.jar
 
-The application can be also packaged using simple:
 
-    ./gradlew build
+## How to run test suite
 
-It produces the `quarkus-run.jar` file in the `build/quarkus-app/` directory.
-Be aware that it is not an _??ber-jar_ as the dependencies are copied into the `build/quarkus-app/lib/` directory.
+Go the the browser and navigate to the following URLs
 
-To launch the test page, open your browser at the following URL
+##### 1. To get all pets
+	
+	http://localhost:8080/v1/pets/
+	
+##### 2. To get a pet by using ID
 
-    http://localhost:8080/index.html
+	http://localhost:8080/v1/pets/id/1
+	
+##### 3. To get a pet by using name
+
+	http://localhost:8080/v1/pets/name/Sudda
+	
+##### 4. To get a pet by using type
+
+	http://localhost:8080/v1/pets/type/Bird
+	
+##### 5. To get a pet by using age
+
+	http://localhost:8080/v1/pets/age/3
+	
+##### 6. To get all pets' IDs
+
+	http://localhost:8080/v1/pets/getIds	
+	
+##### 7. To get all pets' Names
+
+	http://localhost:8080/v1/pets/getNames
+	
+##### 8. To get all types of pets
+
+	http://localhost:8080/v1/pets/getTypes
+	
+## How to run a CURL/WGET command to test the APIs once deployed
+
+##### 1. To get all pets
+	
+	curl -v http://localhost:8080/v1/pets/
+	
+You will get the following output
+
+	*   Trying ::1...
+	* TCP_NODELAY set
+	* Connected to localhost (::1) port 8080 (#0)
+	> GET /v1/pets/ HTTP/1.1
+	> Host: localhost:8080
+	> User-Agent: curl/7.55.1
+	> Accept: */*
+	>
+	< HTTP/1.1 200 OK
+	< Content-Length: 178
+	< Content-Type: application/json
+	<
+	[{"petAge":3,"petId":1,"petName":"Boola","petType":"Dog"},{"petAge":4,"petId":2,"petName":"Sudda","petType":"Cat"},{"petAge":2,"petId":3,"petName":"Peththappu","petType":"Bird"}]* Connection #0 to host localhost left intact
+
+	
+##### 2. To get a pet by using ID
+
+	C:\Users\ASUS>curl -v http://localhost:8080/v1/pets/id/1
+
+You will get the following output	
+
+	*   Trying ::1...
+	* TCP_NODELAY set
+	* Connected to localhost (::1) port 8080 (#0)
+	> GET /v1/pets/id/1 HTTP/1.1
+	> Host: localhost:8080
+	> User-Agent: curl/7.55.1
+	> Accept: */*
+	>
+	< HTTP/1.1 200 OK
+	< Content-Length: 56
+	< Content-Type: application/json
+	<
+	{"petAge":3,"petId":1,"petName":"Boola","petType":"Dog"}* Connection #0 to host localhost left intact
+	
+##### 3. To get a pet by using name
+
+	C:\Users\ASUS>curl -v http://localhost:8080/v1/pets/name/Sudda
+
+You will get the following output
+
+	*   Trying ::1...
+	* TCP_NODELAY set
+	* Connected to localhost (::1) port 8080 (#0)
+	> GET /v1/pets/name/Sudda HTTP/1.1
+	> Host: localhost:8080
+	> User-Agent: curl/7.55.1
+	> Accept: */*
+	>
+	< HTTP/1.1 200 OK
+	< Content-Length: 56
+	< Content-Type: application/json
+	<
+	{"petAge":4,"petId":2,"petName":"Sudda","petType":"Cat"}* Connection #0 to host localhost left intact
+
+	
+##### 4. To get a pet by using type
+
+	C:\Users\ASUS>curl -v http://localhost:8080/v1/pets/type/Bird
+
+You will get the following output
+
+	*   Trying ::1...
+	* TCP_NODELAY set
+	* Connected to localhost (::1) port 8080 (#0)
+	> GET /v1/pets/type/Bird HTTP/1.1
+	> Host: localhost:8080
+	> User-Agent: curl/7.55.1
+	> Accept: */*
+	>
+	< HTTP/1.1 200 OK
+	< Content-Length: 62
+	< Content-Type: application/json
+	<
+	{"petAge":2,"petId":3,"petName":"Peththappu","petType":"Bird"}* Connection #0 to host localhost left intact
+	
+##### 5. To get a pet by using age
+
+	C:\Users\ASUS>curl -v http://localhost:8080/v1/pets/age/3
+
+You will get the following output
+
+	*   Trying ::1...
+	* TCP_NODELAY set
+	* Connected to localhost (::1) port 8080 (#0)
+	> GET /v1/pets/age/3 HTTP/1.1
+	> Host: localhost:8080
+	> User-Agent: curl/7.55.1
+	> Accept: */*
+	>
+	< HTTP/1.1 200 OK
+	< Content-Length: 56
+	< Content-Type: application/json
+	<
+	{"petAge":3,"petId":1,"petName":"Boola","petType":"Dog"}* Connection #0 to host localhost left intact
+	
+##### 6. To get all pets' IDs
+
+	C:\Users\ASUS>curl -v http://localhost:8080/v1/pets/getIds
+	
+You will get the following output
+
+	*   Trying ::1...
+	* TCP_NODELAY set
+	* Connected to localhost (::1) port 8080 (#0)
+	> GET /v1/pets/getIds HTTP/1.1
+	> Host: localhost:8080
+	> User-Agent: curl/7.55.1
+	> Accept: */*
+	>
+	< HTTP/1.1 200 OK
+	< Content-Length: 7
+	< Content-Type: application/json
+	<
+	[1,2,3]* Connection #0 to host localhost left intact	
+	
+	
+##### 7. To get all pets' Names
+
+	C:\Users\ASUS>curl -v http://localhost:8080/v1/pets/getNames
+	
+You will get the following output
+
+	*   Trying ::1...
+	* TCP_NODELAY set
+	* Connected to localhost (::1) port 8080 (#0)
+	> GET /v1/pets/getNames HTTP/1.1
+	> Host: localhost:8080
+	> User-Agent: curl/7.55.1
+	> Accept: */*
+	>
+	< HTTP/1.1 200 OK
+	< Content-Length: 30
+	< Content-Type: application/json
+	<
+	["Boola","Sudda","Peththappu"]* Connection #0 to host localhost left intact	
+	
+##### 8. To get all types of pets
+
+	C:\Users\ASUS>curl -v http://localhost:8080/v1/pets/getTypes
+
+You will get the following output
+
+	*   Trying ::1...
+	* TCP_NODELAY set
+	* Connected to localhost (::1) port 8080 (#0)
+	> GET /v1/pets/getTypes HTTP/1.1
+	> Host: localhost:8080
+	> User-Agent: curl/7.55.1
+	> Accept: */*
+	>
+	< HTTP/1.1 200 OK
+	< Content-Length: 20
+	< Content-Type: application/json
+	<
+	["Dog","Cat","Bird"]* Connection #0 to host localhost left intact
 
 ## Running the application in dev mode
 
