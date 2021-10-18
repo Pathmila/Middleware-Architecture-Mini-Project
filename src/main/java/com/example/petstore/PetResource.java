@@ -8,12 +8,15 @@ import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
@@ -151,22 +154,43 @@ public class PetResource {
 	
 	@APIResponses(value = {
 			@APIResponse(responseCode = "200", description = "Add a pet", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(ref = "Pet"))),
-			@APIResponse(responseCode = "404", description = "No types are found.") })
+			@APIResponse(responseCode = "404", description = "Not found.") })
 	@POST
-	@Path("/addPet/{newId}{newName}{newAge}{newType}")
-	@Produces(MediaType.TEXT_PLAIN)
-	@Consumes(MediaType.TEXT_PLAIN)
-	public Response addPet(@PathParam("newId,newName,newAge,newType") int newId, String newName, int newAge, String newType) {
-		Pet pet1 = new Pet();
-		pet1.setPetId(newId);
-		pet1.setPetAge(newAge);
-		pet1.setPetName(newName);
-		pet1.setPetType(newType);
+	@Path("/addPet")	
+	public Response newPetAdd(Pet pet1) {		
 
 		pets.add(pet1);
 		return Response.ok(pets).build();
 	}
 	
+	@APIResponses(value = {
+			@APIResponse(responseCode = "200", description = "Update a pet", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(ref = "Pet"))),
+			@APIResponse(responseCode = "404", description = "Not found.") })
+	@PUT
+	@Path("/updatePet/{petId}")	
+	public Response PetUpdateById(@PathParam("petId") int petId, Pet pet1) {		
+
+		Pet filterpets = pets.stream().filter(id -> petId == id.getPetId()).findAny().orElse(null);
+	
+		pets.remove(filterpets);
+		pets.add(pet1);
+			
+		return Response.ok(pets).build();
+	}
+	
+	@APIResponses(value = {
+			@APIResponse(responseCode = "200", description = "Delete a pet", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(ref = "Pet"))),
+			@APIResponse(responseCode = "404", description = "Not found.") })
+	@DELETE
+	@Path("/deletePet/{petId}")	
+	public Response PetDeleteById(@PathParam("petId") int petId) {		
+
+		Pet filterpets = pets.stream().filter(id -> petId == id.getPetId()).findAny().orElse(null);
+	
+		pets.remove(filterpets);		
+			
+		return Response.ok(pets).build();
+	}
 	
 }
 

@@ -3,6 +3,10 @@
 ## How to build and/or deploy the API
 
 First clone the repository.
+	
+	git clone .............
+	
+Go to the git bash and enter following commands.
 
 To build the application:
 
@@ -49,7 +53,22 @@ Go the the browser and navigate to the following URLs
 
 	http://localhost:8080/v1/pets/getTypes
 	
+##### 9. To add a pet
+
+	http://localhost:8080/v1/pets/addPet
+	
+##### 10. To update a pet  
+
+	http://localhost:8080/v1/pets/updatePet/1
+	
+##### 11. To delete a pet  
+
+	http://localhost:8080/v1/pets/deletePet/1
+
+	
 ## How to run a CURL/WGET command to test the APIs once deployed
+
+Go to your command prompt and give the following commands to test the APIs.
 
 ##### 1. To get all pets
 	
@@ -74,7 +93,7 @@ You will get the following output
 	
 ##### 2. To get a pet by using ID
 
-	C:\Users\ASUS>curl -v http://localhost:8080/v1/pets/id/1
+	curl -v http://localhost:8080/v1/pets/id/1
 
 You will get the following output	
 
@@ -94,7 +113,7 @@ You will get the following output
 	
 ##### 3. To get a pet by using name
 
-	C:\Users\ASUS>curl -v http://localhost:8080/v1/pets/name/Sudda
+	curl -v http://localhost:8080/v1/pets/name/Sudda
 
 You will get the following output
 
@@ -115,7 +134,7 @@ You will get the following output
 	
 ##### 4. To get a pet by using type
 
-	C:\Users\ASUS>curl -v http://localhost:8080/v1/pets/type/Bird
+	curl -v http://localhost:8080/v1/pets/type/Bird
 
 You will get the following output
 
@@ -135,7 +154,7 @@ You will get the following output
 	
 ##### 5. To get a pet by using age
 
-	C:\Users\ASUS>curl -v http://localhost:8080/v1/pets/age/3
+	curl -v http://localhost:8080/v1/pets/age/3
 
 You will get the following output
 
@@ -155,7 +174,7 @@ You will get the following output
 	
 ##### 6. To get all pets' IDs
 
-	C:\Users\ASUS>curl -v http://localhost:8080/v1/pets/getIds
+	curl -v http://localhost:8080/v1/pets/getIds
 	
 You will get the following output
 
@@ -176,7 +195,7 @@ You will get the following output
 	
 ##### 7. To get all pets' Names
 
-	C:\Users\ASUS>curl -v http://localhost:8080/v1/pets/getNames
+	curl -v http://localhost:8080/v1/pets/getNames
 	
 You will get the following output
 
@@ -196,7 +215,7 @@ You will get the following output
 	
 ##### 8. To get all types of pets
 
-	C:\Users\ASUS>curl -v http://localhost:8080/v1/pets/getTypes
+	curl -v http://localhost:8080/v1/pets/getTypes
 
 You will get the following output
 
@@ -213,6 +232,33 @@ You will get the following output
 	< Content-Type: application/json
 	<
 	["Dog","Cat","Bird"]* Connection #0 to host localhost left intact
+
+##### 9. To add a pet
+
+	curl --location --request POST 'http://localhost:8080/v1/pets/addPet' \
+	--header 'Content-Type: application/json' \
+	--data-raw '{
+	        "petAge": 4,
+	        "petId": 4,
+	        "petName": "New Pet",
+	        "petType": "New Type"
+	    }'
+	
+##### 10. To update a pet  
+	  
+	curl --location --request PUT 'http://localhost:8080/v1/pets/updatePet/1' \
+	--header 'Content-Type: application/json' \
+	--data-raw '{
+	        "petAge": 4,
+	        "petId": 4,
+	        "petName": "Updated Pet",
+	        "petType": "Updated Type"
+	    }'	    
+
+##### 11. To delete a pet  
+
+	curl --location --request DELETE 'http://localhost:8080/v1/pets/deletePet/1'
+
 
 ## Running the application in dev mode
 
