@@ -235,18 +235,27 @@ You will get the following output
 
 ##### 9. To add a pet
 
-	curl --location --request GET "http://localhost:8080/v1/pets/" --header "Content-Type: application/json" --data-raw "{"petAge": 7,"petId": 5,"petName": "New Name","petType": "New Type"}"
-
-	[{"petAge":4,"petId":2,"petName":"Sudda","petType":"Cat"},{"petAge":2,"petId":3,"petName":"Peththappu","petType":"Bird"},{"petAge":6,"petId":4,"petName":"New Pet","petType":"New Type"}]curl: (3) Port number ended with ' '
-	curl: (3) [globbing] unmatched close brace/bracket in column 5
+	curl -X POST "http://localhost:8080/v1/pets/addPet" -H "Content-Type: application/json" --data-raw "{\"petAge\": 1,\"petId\": 1,\"petName\": \"New Pet\",\"petType\": \"New Type\"}"
+	
+You will get the following output
+	
+	[{"petAge":4,"petId":2,"petName":"Sudda","petType":"Cat"},{"petAge":2,"petId":3,"petName":"Peththappu","petType":"Bird"},{"petAge":1,"petId":1,"petName":"New Pet","petType":"New Type"}]
 	
 ##### 10. To update a pet  
 	  
-	curl -v "http://localhost:8080/v1/pets/updatePet/1"--header "Content-Type: application/json" --data-raw "{"petAge": 4,"petId": 4,"petName": "Updated Pet","petType": "Updated Type"}"    
+	curl -X PUT "http://localhost:8080/v1/pets/updatePet/1" -H "Content-Type: application/json" --data-raw "{\"petAge\": 7,\"petId\": 1,\"petName\": \"Update Pet\",\"petType\": \"Update Type\"}"  
+	
+You will get the following output
+	
+	[{"petAge":4,"petId":2,"petName":"Sudda","petType":"Cat"},{"petAge":2,"petId":3,"petName":"Peththappu","petType":"Bird"},{"petAge":7,"petId":1,"petName":"Update Pet","petType":"Update Type"}]
 
 ##### 11. To delete a pet  
 
-	curl --location --request DELETE "http://localhost:8080/v1/pets/deletePet/1"
+	curl -X DELETE "http://localhost:8080/v1/pets/deletePet/1"
+	
+You will get the following output
+
+	[{"petAge":4,"petId":2,"petName":"Sudda","petType":"Cat"},{"petAge":2,"petId":3,"petName":"Peththappu","petType":"Bird"}]	
 
 
 ## Running the application in dev mode
