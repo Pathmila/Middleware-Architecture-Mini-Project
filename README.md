@@ -344,6 +344,7 @@ If you want to learn more about building native executables, please consult http
 
 ## Specification examples
 
+
 By default, there is always the creation of a JAX-RS application class to define the path on which the JAX-RS endpoints are available.
 
 Also, a simple Hello world endpoint is created, have a look at the class **HelloController**.
