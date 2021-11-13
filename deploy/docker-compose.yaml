@@ -6,7 +6,7 @@ volumes:
 
 services:
   petstore:
-    image: asini/petstore:unspecified
+    image: rasika/petstore:unspecified
     ports:
       - 8080:8080
     restart: always
