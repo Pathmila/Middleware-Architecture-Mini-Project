@@ -346,7 +346,7 @@ You can then execute your native executable with:
 If you want to learn more about building native executables, please consult https://quarkus.io/guides/building-native-image.
 
 
-##Deploy Application with Docker-Compose
+## Deploy Application with Docker-Compose
 
 Starting local Grafana and Prometheus
 
