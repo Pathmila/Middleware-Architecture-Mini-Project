@@ -17,18 +17,55 @@ public class PetResourceTest {
         given()
           .when().get("/v1/pets")
           .then()
-             .statusCode(200);
-//             .body(hasItem(
-// 		            allOf(
-//    		                hasEntry("pet_id", "1"),
-//    		                hasEntry("pet_type", "Dog"),
-//    		                hasEntry("pet_name", "Boola"),
-//    		                hasEntry("pet_age", "3")
-//    		            )
-//    		      )
-//    		 );              
+             .statusCode(200);           
     }
-
-
-
+	
+	@Test
+    public void testDeletePetEndpoint() {
+        given()
+          .when().delete("v1/pets/deletePet/1")
+          .then()
+             .statusCode(200);           
+    }
+	
+//	@Test
+//	public void testAddPetEndpoint() {
+//	    given()
+//	      .when().post("v1/pets/addPet")
+//	      .then()
+//	         .statusCode(200);           
+//	}
+	
+//	@Test
+//  public void testUpdateTypeEndpoint() {
+//      given()
+//        .when().put("v1/pets/updatePet/1")
+//        .then()
+//           .statusCode(200);           
+//  }
+	
+	@Test
+    public void testPetByIdEndpoint() {
+        given()
+          .when().get("v1/pets/id/1")
+          .then()
+             .statusCode(200);           
+    }
+	
+	@Test
+    public void testPetByNameEndpoint() {
+        given()
+          .when().get("v1/pets/name/Sudda")
+          .then()
+             .statusCode(200);           
+    }
+	
+	@Test
+    public void testPetByTypeEndpoint() {
+        given()
+          .when().get("v1/pets/type/Bird")
+          .then()
+             .statusCode(200);           
+    }
+	
 }
