@@ -89,6 +89,9 @@ Go the the browser and navigate to the following URLs
 
 	http://localhost:8080/v1/pets/getTypes
 	
+## How to run the test suite
+
+	./gradlew test
 	
 ## How to run a CURL/WGET command to test the APIs once deployed
 
@@ -341,5 +344,36 @@ You can then execute your native executable with:
     ./build/petstore-runner
 
 If you want to learn more about building native executables, please consult https://quarkus.io/guides/building-native-image.
+
+
+##Deploy Application with Docker-Compose
+
+Starting local Grafana and Prometheus
+
+	cd deploy
+
+	Run docker-compose up -d
+	
+Open http://localhost:3000/ and use admin:admin credentials
+
+Navigate into 
+	
+	http://localhost:3000/dashboards
+
+Open Quarkus Microprofile Metrics dashboard
+
+Following Containers will de deployed.
+
+Application with Native Binary on 
+
+	http://localhost:8080
+
+Prometheus for scraping metrics on 
+
+	http://localhost:9090
+
+Grafana Dashboards for Quarkus on 
+
+	http://localhost:3000
 
 
